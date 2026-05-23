@@ -1,0 +1,6 @@
+{
+  "name": "Dicas de Make Diárias",
+  "description": "Um aplicativo moderno com dicas de maquiagem passo a passo para cada dia da semana usando produtos acessíveis.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
