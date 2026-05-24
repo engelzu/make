@@ -676,73 +676,7 @@ export default function Home() {
               </div>
             )}
           </div>
-        ) : activeCategory === "assistente" ? (
-          <div className="animate-in fade-in slide-in-from-bottom-4 duration-300">
-            <div className="pt-8">
-                      <div className="flex flex-col gap-6 items-center">
-                        <div className="w-full bg-gradient-to-r from-rose-500 to-pink-500 rounded-3xl p-6 text-white shadow-lg relative overflow-hidden">
-                          <div className="absolute top-0 right-0 p-4 opacity-20">
-                            <Bot className="w-24 h-24" />
-                          </div>
-                          <h3 className="font-serif text-2xl font-bold mb-2">Assistente de IA</h3>
-                          <p className="text-rose-100 text-sm max-w-[200px] mb-4">Mapeamento facial avançado para sugerir a maquiagem perfeita.</p>
-                          <div className="inline-flex items-center gap-2 bg-black/20 backdrop-blur-sm px-4 py-2 rounded-full">
-                            <Sparkles className="w-4 h-4 text-rose-200" />
-                            <span className="font-bold">{aiCredits} testes restantes</span>
-                          </div>
-                        </div>
 
-                        {aiCredits <= 0 ? (
-                          <div className={`w-full p-8 rounded-3xl border shadow-sm text-center ${isNight ? "bg-stone-900 border-stone-800" : "bg-white border-stone-100"}`}>
-                            <div className="w-16 h-16 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                              <Star className="w-8 h-8 text-rose-500" />
-                            </div>
-                            <h4 className={`font-serif text-xl font-bold mb-2 ${isNight ? "text-white" : "text-stone-900"}`}>Seus testes esgotaram!</h4>
-                            <p className={`text-sm mb-6 ${isNight ? "text-stone-400" : "text-stone-500"}`}>Mas não se preocupe! Adquira mais créditos para continuar usando nossa IA avançada.</p>
-                            <button className="w-full bg-stone-900 text-white font-bold py-4 rounded-2xl shadow-lg hover:bg-stone-800 active:scale-95 transition-all">
-                              Comprar +10 Testes (R$ 7,00)
-                            </button>
-                          </div>
-                        ) : !capturedImage ? (
-                          <div className={`w-full aspect-[3/4] max-w-sm rounded-3xl border-2 border-dashed flex flex-col items-center justify-center p-6 text-center relative overflow-hidden group transition-colors ${isNight ? "border-stone-800 hover:border-rose-500/50 bg-stone-900/50" : "border-stone-200 hover:border-rose-400 bg-stone-50"}`}>
-                            <input type="file" accept="image/*" capture="user" onChange={handleImageCapture} className="absolute inset-0 opacity-0 cursor-pointer z-10" />
-                            <div className="w-20 h-20 bg-rose-50 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                              <Camera className="w-8 h-8 text-rose-500" />
-                            </div>
-                            <h4 className={`font-serif text-lg font-bold mb-2 ${isNight ? "text-white" : "text-stone-900"}`}>Tirar uma Foto</h4>
-                            <p className={`text-sm ${isNight ? "text-stone-400" : "text-stone-500"}`}>Centralize o seu rosto em um ambiente bem iluminado.</p>
-                          </div>
-                        ) : isAnalyzing ? (
-                          <div className={`w-full aspect-[3/4] max-w-sm rounded-3xl relative overflow-hidden shadow-lg border ${isNight ? "border-stone-800" : "border-stone-200"}`}>
-                            <Image src={capturedImage} alt="Captured" fill className="object-cover opacity-50" />
-                            <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 backdrop-blur-sm z-10 p-6 text-center">
-                              <div className="w-16 h-16 border-4 border-rose-500 border-t-transparent rounded-full animate-spin mb-6 shadow-[0_0_15px_rgba(244,63,94,0.5)]"></div>
-                              <p className="text-white font-bold text-lg animate-pulse mb-2">A IA está mapeando seu rosto...</p>
-                              <p className="text-rose-200 text-sm">Calculando proporções e tons ideais.</p>
-                            </div>
-                            <div className="absolute top-0 left-0 right-0 h-1 bg-rose-500 shadow-[0_0_20px_rgba(244,63,94,1)] animate-[scan_2s_ease-in-out_infinite]" style={{ animation: "scan 2s ease-in-out infinite", animationDirection: "alternate" }}></div>
-                          </div>
-                        ) : aiResultImage ? (
-                          <div className="w-full flex flex-col gap-4">
-                            <div className="flex gap-2">
-                              <div className={`flex-1 aspect-[3/4] rounded-2xl relative overflow-hidden border shadow-sm ${isNight ? "border-stone-800" : "border-stone-200"}`}>
-                                <Image src={capturedImage} alt="Antes" fill className="object-cover" />
-                                <div className="absolute bottom-2 left-2 bg-black/60 backdrop-blur-sm text-white text-xs px-2 py-1 rounded-lg font-bold">Original</div>
-                              </div>
-                              <div className="flex-1 aspect-[3/4] rounded-2xl relative overflow-hidden border-2 border-rose-500 shadow-[0_0_20px_rgba(244,63,94,0.2)]">
-                                <Image src={aiResultImage} alt="Depois" fill className="object-cover" />
-                                <div className="absolute bottom-2 right-2 bg-rose-500 text-white text-xs px-2 py-1 rounded-lg font-bold flex items-center gap-1"><Sparkles className="w-3 h-3"/> IA Make</div>
-                              </div>
-                            </div>
-                            <div className={`p-5 rounded-3xl border shadow-sm ${isNight ? "bg-stone-900 border-stone-800" : "bg-white border-stone-100"}`}>
-                              <h4 className={`font-serif text-lg font-bold mb-2 flex items-center gap-2 ${isNight ? "text-rose-100" : "text-rose-950"}`}><Bot className="w-5 h-5 text-rose-500"/> Dica da Assistente</h4>
-                              <p className={`text-sm leading-relaxed mb-4 ${isNight ? "text-stone-300" : "text-stone-600"}`}>Seu formato de rosto fica perfeitamente harmonizado com um blush cremoso nas maçãs e um batom marcante para destacar os lábios. Experimente esfumar os olhos em tons terrosos!</p>
-                              <button onClick={() => { setCapturedImage(null); setAiResultImage(null); }} className="w-full bg-rose-100 text-rose-600 font-bold py-3 rounded-xl hover:bg-rose-200 active:scale-95 transition-all text-sm">
-                                Tirar Outra Foto (Usa 1 Teste)
-                              </button>
-                            </div>
-                          </div>
-                        ) : (
                           <div className="w-full max-w-sm flex flex-col gap-4">
                             <div className={`w-full aspect-[3/4] rounded-3xl relative overflow-hidden shadow-lg border ${isNight ? "border-stone-800" : "border-stone-200"}`}>
                               <Image src={capturedImage} alt="Captured" fill className="object-cover" />
