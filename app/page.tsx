@@ -677,16 +677,14 @@ export default function Home() {
             )}
           </div>
 
-                          <div className="w-full max-w-sm flex flex-col gap-4">
-                            <div className={`w-full aspect-[3/4] rounded-3xl relative overflow-hidden shadow-lg border ${isNight ? "border-stone-800" : "border-stone-200"}`}>
-                              <Image src={capturedImage} alt="Captured" fill className="object-cover" />
-                            </div>
-
-                            <button onClick={() => setCapturedImage(null)} className={`w-full py-4 rounded-2xl font-bold active:scale-95 transition-all ${isNight ? "bg-stone-800 text-stone-300 hover:bg-stone-700" : "bg-stone-200 text-stone-600 hover:bg-stone-300"}`}>
-                              Tirar Novamente
-                            </button>
-)
-                          </div>
+<div className="w-full max-w-sm flex flex-col gap-4">
+  <div className={`w-full aspect-[3/4] rounded-3xl relative overflow-hidden shadow-lg border ${isNight ? "border-stone-800" : "border-stone-200"}`}>
+    <Image src={capturedImage} alt="Captured" fill className="object-cover" />
+  </div>
+  <button onClick={() => setCapturedImage(null)} className={`w-full py-4 rounded-2xl font-bold active:scale-95 transition-all ${isNight ? "bg-stone-800 text-stone-300 hover:bg-stone-700" : "bg-stone-200 text-stone-600 hover:bg-stone-300"}`}>
+    Tirar Novamente
+  </button>
+</div>
                         )}
                       </div>
             </div>
