@@ -27,9 +27,7 @@ import {
   VolumeX,
   Star,
   Briefcase,
-  ShoppingBag,
-  Camera,
-  Bot
+  ShoppingBag
 } from "lucide-react";
 
 const colorNames: Record<string, string> = {
@@ -79,7 +77,6 @@ const allCategories = {
   saude: { id: "saude", name: "Mood Wellness", icon: Activity, data: saudeData },
   horoscopo: { id: "horoscopo", name: "Make Astral", icon: Star, data: horoscopoData },
   achadinhos: { id: "achadinhos", name: "Achadinhos", icon: ShoppingBag, data: achadinhosData as any[] },
-  assistente: { id: "assistente", name: "Assistente de IA", icon: Bot, data: [] },
 } as const;
 
 type CategoryId = keyof typeof allCategories;
@@ -223,55 +220,6 @@ export default function Home() {
   const [currentSpeakingIndex, setCurrentSpeakingIndex] = useState<number>(-1);
   const [glowPoints, setGlowPoints] = useState<number>(0);
 
-  // --- AI Assistant State ---
-  const [aiCredits, setAiCredits] = useState<number>(3);
-  const [capturedImage, setCapturedImage] = useState<string | null>(null);
-  const [isAnalyzing, setIsAnalyzing] = useState<boolean>(false);
-  const [aiResultImage, setAiResultImage] = useState<string | null>(null);
-  
-  const handleImageCapture = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        // Create an image object to resize it
-        const img = document.createElement("img");
-        img.onload = () => {
-          const canvas = document.createElement("canvas");
-          const MAX_WIDTH = 800;
-          const MAX_HEIGHT = 800;
-          let width = img.width;
-          let height = img.height;
-
-          if (width > height) {
-            if (width > MAX_WIDTH) {
-              height *= MAX_WIDTH / width;
-              width = MAX_WIDTH;
-            }
-          } else {
-            if (height > MAX_HEIGHT) {
-              width *= MAX_HEIGHT / height;
-              height = MAX_HEIGHT;
-            }
-          }
-
-          canvas.width = width;
-          canvas.height = height;
-          const ctx = canvas.getContext("2d");
-          ctx?.drawImage(img, 0, 0, width, height);
-
-          // Compress to JPEG 80% quality to ensure it passes Netlify's 4MB limit
-          const compressedBase64 = canvas.toDataURL("image/jpeg", 0.8);
-          setCapturedImage(compressedBase64);
-          setAiResultImage(null);
-        };
-        img.src = reader.result as string;
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  // -------------------------
 
   const [isNight, setIsNight] = useState<boolean>(true);
   const [isQuizOpen, setIsQuizOpen] = useState(false);
@@ -675,19 +623,6 @@ export default function Home() {
                 })}
               </div>
             )}
-          </div>
-
-<div className="w-full max-w-sm flex flex-col gap-4">
-  <div className={`w-full aspect-[3/4] rounded-3xl relative overflow-hidden shadow-lg border ${isNight ? "border-stone-800" : "border-stone-200"}`}>
-    <Image src={capturedImage} alt="Captured" fill className="object-cover" />
-  </div>
-  <button onClick={() => setCapturedImage(null)} className={`w-full py-4 rounded-2xl font-bold active:scale-95 transition-all ${isNight ? "bg-stone-800 text-stone-300 hover:bg-stone-700" : "bg-stone-200 text-stone-600 hover:bg-stone-300"}`}>
-    Tirar Novamente
-  </button>
-</div>
-                        )}
-                      </div>
-            </div>
           </div>
         ) : (
           <>
