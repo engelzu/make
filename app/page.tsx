@@ -222,6 +222,7 @@ export default function Home() {
 
   // --- Mercado Pago & Trial State ---
   const [isTrialBlocked, setIsTrialBlocked] = useState<boolean>(false);
+  const [showTrialNotice, setShowTrialNotice] = useState<boolean>(false);
   const [activationCode, setActivationCode] = useState<string>( "");
   const [activationError, setActivationError] = useState<string>("");
   const MERCADO_PAGO_LINK = "https://mpago.la/11s8BAp";
@@ -302,6 +303,18 @@ export default function Home() {
         .catch((err) => console.log('SW Erro:', err));
     }
   }, []);
+
+  useEffect(() => {
+    if (hasEntered) {
+      try {
+        const dismissed = localStorage.getItem('make_trial_notice_dismissed') === 'true';
+        const isPaid = localStorage.getItem('make_app_paid') === 'true';
+        if (!dismissed && !isPaid) {
+          setShowTrialNotice(true);
+        }
+      } catch (e) {}
+    }
+  }, [hasEntered]);
 
   const addGlowPoints = (points: number) => {
     setGlowPoints(prev => {
@@ -1188,6 +1201,47 @@ export default function Home() {
               try { localStorage.setItem("userPalette", res); } catch(e) {}
             }} 
           />
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {showTrialNotice && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-300">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="relative w-full max-w-md bg-stone-900 text-white rounded-3xl p-8 border border-stone-850 shadow-2xl"
+            >
+              <div className="w-12 h-12 bg-gradient-to-tr from-rose-500 to-pink-500 rounded-full flex items-center justify-center mb-6 shadow-[0_0_15px_rgba(244,63,94,0.4)]">
+                <Sparkles className="w-6 h-6 text-white animate-pulse" />
+              </div>
+
+              <h3 className="font-serif text-2xl font-bold mb-3 tracking-tight text-white">
+                Seu Teste Gratuito Começou!
+              </h3>
+              
+              <p className="text-stone-300 text-sm leading-relaxed mb-4">
+                Seja muito bem-vinda ao <strong className="text-white">Estilo</strong>! Você tem <span className="text-rose-400 font-bold">24 horas de acesso gratuito e ilimitado</span> para explorar todas as nossas dicas diárias de beleza, skincare, looks exclusivos e horóscopo.
+              </p>
+              
+              <p className="text-stone-455 text-stone-400 text-xs leading-relaxed mb-8">
+                Após esse período de teste, para continuar recebendo suas atualizações diárias e o audioguia, será cobrada uma taxa única de apenas <strong className="text-white">R$ 7,00</strong>. Não há assinaturas mensais ou cobranças adicionais!
+              </p>
+
+              <button
+                onClick={() => {
+                  try {
+                    localStorage.setItem('make_trial_notice_dismissed', 'true');
+                  } catch (e) {}
+                  setShowTrialNotice(false);
+                }}
+                className="w-full bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white font-bold py-3.5 rounded-2xl shadow-lg active:scale-95 transition-all text-center text-sm"
+              >
+                Começar a Usar
+              </button>
+            </motion.div>
+          </div>
         )}
       </AnimatePresence>
 
